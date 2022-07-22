@@ -2,8 +2,8 @@
 const router = require('express').Router()
 
 
-router.get('/project', (req,res,next) => {
-    return res.status(200).json({ message: 'this is a project message'})
+router.get('/api/project', (req,res,next) => {
+   console.log('this is a project message')
 })
 
 router.use((err,req,res,next) =>{
