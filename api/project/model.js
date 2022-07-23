@@ -1,16 +1,22 @@
 // build your `Project` model here
 const db = require('../../data/dbConfig')
 
-function getProject(){
-    const projects = await db('projects')
-        const project = {
-            project_id: projects[0].project_id,
-            project_name: projects[0].project_name,
-            project_description: projects[0].project_description,
-            project_completed: projects[0].toString()
-        }
-
-    return projects
+function getProject() {
+    return db('projects')
+        .then(projects => projects.map(proj => ({
+            ...proj, project_completed: proj.project_completed ? true : false,
+        })))
+        .catch((err) => console.log(err.message))
 }
 
-module.exports = { getProject }
+function createProject(project) {
+    return db('projects')
+        .insert(project, "project_id")
+        .then(([project_id]) => db('projects').where({project_id}))
+        .then(projects => projects.map(proj => ({
+            ...proj, project_completed: proj.project_completed ? true : false,
+        })))
+        .catch((err) => console.log(err.message))
+}
+
+module.exports = { getProject, createProject }

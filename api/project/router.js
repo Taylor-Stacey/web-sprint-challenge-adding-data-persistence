@@ -3,13 +3,19 @@ const router = require('express').Router()
 const helpers = require('./model')
 
 
-router.get('/', (req,res,next) => {
-  helpers.getProject()
-  .then(projects => {
-    res.status(200).json(projects);
+router.get('/', async (req,res,next) => {
+  const projects = await helpers.getProject()
+  .then(project => {
+    res.status(200).json(project);
   })
   .catch(next)
 })
+
+router.post ('/', async (req, res) => {
+    const project = req.body
+    const newProject = await helpers.createProject(project)
+    res.json(newProject)
+});
 
 router.use((err,req,res,next) =>{
     res.status(500).json({
