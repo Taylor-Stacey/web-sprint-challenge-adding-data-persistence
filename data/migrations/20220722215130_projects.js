@@ -4,7 +4,7 @@ exports.up = function (knex) {
     tbl.increments('project_id');
     tbl.varchar('project_name', 50).unique().notNullable();
     tbl.varchar('project_description', 200)
-    tbl.boolean('project_completed').notNullable();
+    tbl.boolean('project_completed')
   })
 };
 
