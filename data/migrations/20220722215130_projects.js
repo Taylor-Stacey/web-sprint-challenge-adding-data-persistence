@@ -11,24 +11,25 @@ exports.up = function (knex) {
     tbl.varchar('resource_name', 100).unique().notNullable()
     tbl.varchar('resource_description', 250)
   })
-  // .createTable('tasks', tbl => {
-  //   tbl.increments('task_id');
-  //   tbl.varchar('task_description', 250).notNullable()
-  //   tbl.varchar('task_notes', 250)
-  //   tbl.boolean('task_completed').defaultsTo(false)
-  //   tbl.integer('project_id')
-  //       .unsigned()
-  //       .notNullable()
-  //       .references('project_id')
-  //       .inTable('projects')
-  //       .onUpdate('CASCADE')
-  //       .onDelete('CASCADE');
-  // })
+  .createTable('tasks', tbl => {
+    tbl.increments('task_id');
+    tbl.varchar('task_description', 250).notNullable()
+    tbl.varchar('task_notes', 250)
+    tbl.boolean('task_completed').defaultsTo(false)
+    tbl.integer('project_id')
+        .unsigned()
+        .notNullable()
+        .references('project_id')
+        .inTable('projects')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+  })
 };
 
 
 exports.down =  async function(knex) {
   await knex.schema
+  .dropTableIfExists('tasks')
   .dropTableIfExists('resources')
   .dropTableIfExists('projects')
 };
