@@ -11,10 +11,12 @@ router.get('/', async (req,res,next) => {
   .catch(next)
 })
 
-router.post ('/', async (req, res) => {
-    const project = req.body
-    const newProject = await helpers.createProject(project)
-    res.json(newProject)
+router.post ('/', (req, res, next) => {
+  helpers.createProject(req.body)
+  .then(project => {
+    res.status(201).json(project)
+  })
+  .catch(next)
 });
 
 router.use((err,req,res,next) =>{
